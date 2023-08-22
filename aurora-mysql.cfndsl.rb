@@ -58,7 +58,7 @@ CloudFormation do
   }
 
   RDS_DBClusterParameterGroup(:DBClusterParameterGroup) {
-    RDS_DBClusterParameterGroup FnJoin('', [ Ref(:EnvironmentName), external_parameters[:component_name], external_parameters[:family] ])
+    DBClusterParameterGroupName FnJoin('', [ Ref(:EnvironmentName), external_parameters[:component_name], external_parameters[:family] ])
     Description FnJoin(' ', [ Ref(:EnvironmentName), external_parameters[:component_name], 'cluster parameter group' ])
     Family external_parameters[:family]
     Parameters external_parameters[:cluster_parameters]
