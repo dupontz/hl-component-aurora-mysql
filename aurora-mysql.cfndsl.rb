@@ -58,6 +58,7 @@ CloudFormation do
   }
 
   RDS_DBClusterParameterGroup(:DBClusterParameterGroup) {
+    DBParameterGroupName FnJoin(' ', [ Ref(:EnvironmentName), external_parameters[:component_name], external_parameters[:family] ])
     Description FnJoin(' ', [ Ref(:EnvironmentName), external_parameters[:component_name], 'cluster parameter group' ])
     Family external_parameters[:family]
     Parameters external_parameters[:cluster_parameters]
@@ -100,6 +101,7 @@ CloudFormation do
   if external_parameters[:engine_mode] == 'provisioned'
     Condition("EnableReader", FnEquals(Ref("EnableReader"), 'true'))
     RDS_DBParameterGroup(:DBInstanceParameterGroup) {
+      DBParameterGroupName FnJoin(' ', [ Ref(:EnvironmentName), external_parameters[:component_name], external_parameters[:family]])
       Description FnJoin(' ', [ Ref(:EnvironmentName), external_parameters[:component_name], 'instance parameter group' ])
       Family external_parameters[:family]
       Parameters external_parameters[:instance_parameters]
